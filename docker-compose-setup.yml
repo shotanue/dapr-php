@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+  setup-api-facade:
+    build:
+      context: api-facade
+      target: composer
+    command: install
+    volumes:
+      - ./api-facade:/app
+  setup-services:
+    build:
+      context: services
+      target: composer
+    command: install
+    volumes:
+      - ./services:/app

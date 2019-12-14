@@ -1,0 +1,19 @@
+{
+    "name": "root/app",
+    "require": {
+        "spiral/roadrunner": "^1.5",
+        "slim/slim": "4.*",
+        "slim/psr7": "^0.6.0"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "@setup"
+        ],
+        "post-update-cmd": [
+            "@setup"
+        ],
+        "setup": [
+            "rm -f rr; ./vendor/bin/rr get-binary"
+        ]
+    }
+}

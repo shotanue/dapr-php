@@ -1,0 +1,69 @@
+version: "3.7"
+
+services:
+  placement:
+    image: daprio/dapr
+    entrypoint: "./placement"
+    ports:
+      - 50005:50005
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+  dapr-endpoint:
+    build:
+      context: dapr-endpoint
+    environment:
+      - DAPR_PLACEMENT_HOST=placement
+      - DAPR_REDIS_HOST=redis
+    volumes:
+      - ./dapr-endpoint:/app
+    ports:
+      - 3500:3500
+    depends_on:
+      - placement
+      - redis
+  hello:
+    build:
+      context: services
+    environment:
+      - DAPR_PLACEMENT_HOST=placement
+      - DAPR_REDIS_HOST=redis
+    volumes:
+      - ./services:/app
+    command:
+      - hello
+    depends_on:
+      - dapr-endpoint
+  admin-notification-service:
+    build:
+      context: services
+    environment:
+      - DAPR_PLACEMENT_HOST=placement
+      - DAPR_REDIS_HOST=redis
+    volumes:
+      - ./services:/app
+    command:
+      - admin-notification-service
+    depends_on:
+      - dapr-endpoint
+  user-notification-service:
+    build:
+      context: services
+    environment:
+      - DAPR_PLACEMENT_HOST=placement
+      - DAPR_REDIS_HOST=redis
+    volumes:
+      - ./services:/app
+    command:
+      - user-notification-service
+    depends_on:
+      - dapr-endpoint
+  api-facade:
+    build:
+      context: api-facade
+      target: app
+    volumes:
+      - ./api-facade:/app
+    ports:
+    - 8080:8080
