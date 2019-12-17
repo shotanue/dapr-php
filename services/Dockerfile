@@ -5,7 +5,9 @@ RUN apk --update --no-cache add wget bash
 # install dapr-cli
 RUN wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O - | /bin/bash
 
-# dapr-cli requires daprd
+# daprdは`dapr-cli init`を叩くと落ちてくるが、同時にredisとplacementという別のコンテナを立ち上げてしまう。
+# イメージの構築で叩けないので、直接curlでバイナリを落とすことにする。
+# ↓このへんのソースを読むとdaprdのパッケージが置いてあるURLがわかる。
 # ref. https://github.com/dapr/cli/blob/d585612185a4a525c05fb62b86e288ccad510006/pkg/standalone/standalone.go#L265
 RUN curl -Lo /tmp/daprd.tar.gz \
       https://github.com/dapr/dapr/releases/download/v0.3.0/daprd_linux_amd64.tar.gz \
@@ -30,6 +32,8 @@ CMD [""]
 
 FROM base-image AS app
 
+# 本来は自分でdaprdとアプリケーションのプロセスを立ち上げる必要があるが、
+# dapr-cliのコマンドを使って簡単な方法で起動させる
 EXPOSE 8080
 ENTRYPOINT [\
   "dapr",\
