@@ -10,13 +10,11 @@ daprdとの通信はHTTPやgrpcが使われるので言語に依存せず実装�
 
 PHPをRoadrunnerを使うことでdaprと接続しています。
 
-### setup
-```bash
-docker-compose -f docker-compose-setup.yml up
-```
-
 ### run project
 ```bash
+// setup(volumeしてあるディレクトリでcomposer installが走ります)
+docker-compose -f docker-compose-setup.yml up
+
 //　プロジェクトが立ち上がります 
 docker-compose up -d
 
@@ -24,8 +22,9 @@ docker-compose up -d
 docker-compose logs -f
 
 // 別ターミナルを開いて、postをするとpub/subで処理が走るのをログから確認できます。
-// ユースケースとして、ユーザー作成完了時に管理者と登録ユーザーに通知を送る想定です。
-curl -X POST "localhost:8080/createUser"
+// フォロワーが増えた際にemailとpush通知を送るケースを想定しています。
+// 実装自体は空で、サンプルのpub/subがちゃんと動いているかアクセスログで確認するような感じです。
+curl -X POST "localhost:8080/follower"
 ```
 
 ### 処理の流れ
