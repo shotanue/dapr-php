@@ -30,7 +30,7 @@ $app->post('/followers', function (ServerRequestInterface $request, ResponseInte
     // ...
     // ...
 
-    publishTopic('userCreated', []);
+    publishTopic('followerAdded', []);
 
     $response->getBody()->write('');
     return $response;
