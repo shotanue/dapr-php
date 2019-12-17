@@ -1,6 +1,6 @@
 http:
   address:    0.0.0.0:8080
   workers:
-    command:  "php user-notification-service.php"
+    command:  "php push-notification-service.php"
     pool:
       numWorkers: 1

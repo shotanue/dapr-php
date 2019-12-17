@@ -25,8 +25,8 @@ function publishTopic(string $topic, array $message)
 
 $app = AppFactory::create();
 
-$app->post('/createUser', function (ServerRequestInterface $request, ResponseInterface $response, $args) {
-    // createUser process
+$app->post('/followers', function (ServerRequestInterface $request, ResponseInterface $response, $args) {
+    // followers process
     // ...
     // ...
 

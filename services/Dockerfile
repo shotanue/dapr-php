@@ -1,8 +1,6 @@
 FROM php:7.3-cli-alpine AS base-image
 
-RUN apk --update --no-cache add \
-    wget\
-    bash
+RUN apk --update --no-cache add wget bash
 
 # install dapr-cli
 RUN wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O - | /bin/bash
@@ -27,9 +25,12 @@ ENV PATH /composer/vendor/bin:$PATH
 
 COPY --from=composer:1.9.1 /usr/bin/composer /usr/bin/composer
 
+ENTRYPOINT ["composer"]
+CMD [""]
+
 FROM base-image AS app
 
-EXPOSE 3000 8080
+EXPOSE 8080
 ENTRYPOINT [\
   "dapr",\
   "run",\

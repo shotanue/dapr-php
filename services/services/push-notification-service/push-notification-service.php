@@ -14,8 +14,8 @@ require '../../vendor/autoload.php';
 
 $app = AppFactory::create();
 
-$app->post('/userCreated', function (ServerRequestInterface $request, ResponseInterface $response, $args) {
-    $response->getBody()->write('user!!!');
+$app->post('/followerAdded', function (ServerRequestInterface $request, ResponseInterface $response, $args) {
+    $response->getBody()->write('');
     return $response;
 });
 
@@ -24,7 +24,10 @@ $app->get('/dapr/config', function (ServerRequestInterface $request, ResponseInt
 });
 
 $app->get('/dapr/subscribe', function (ServerRequestInterface $request, ResponseInterface $response, $args) {
-    $response->getBody()->write(json_encode(['userCreated'], JSON_THROW_ON_ERROR, 512));
+    $subscribeTopics = [
+        'followerAdded'
+    ];
+    $response->getBody()->write(json_encode($subscribeTopics, JSON_THROW_ON_ERROR, 512));
     return $response;
 });
 

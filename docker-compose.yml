@@ -23,7 +23,7 @@ services:
     depends_on:
       - placement
       - redis
-  hello:
+  email-notification-service:
     build:
       context: services
     environment:
@@ -32,10 +32,10 @@ services:
     volumes:
       - ./services:/app
     command:
-      - hello
+      - email-notification-service
     depends_on:
       - dapr-endpoint
-  admin-notification-service:
+  push-notification-service:
     build:
       context: services
     environment:
@@ -44,19 +44,7 @@ services:
     volumes:
       - ./services:/app
     command:
-      - admin-notification-service
-    depends_on:
-      - dapr-endpoint
-  user-notification-service:
-    build:
-      context: services
-    environment:
-      - DAPR_PLACEMENT_HOST=placement
-      - DAPR_REDIS_HOST=redis
-    volumes:
-      - ./services:/app
-    command:
-      - user-notification-service
+      - push-notification-service
     depends_on:
       - dapr-endpoint
   api-facade:

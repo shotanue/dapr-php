@@ -1,6 +1,6 @@
 http:
   address:    0.0.0.0:8080
   workers:
-    command:  "php hello.php"
+    command:  "php email-notification-service.php"
     pool:
       numWorkers: 1
